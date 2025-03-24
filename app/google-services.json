@@ -1,0 +1,125 @@
+{
+  "project_info": {
+    "project_number": "557196817320",
+    "firebase_url": "https://social-media-ab0cc-default-rtdb.firebaseio.com",
+    "project_id": "social-media-ab0cc",
+    "storage_bucket": "social-media-ab0cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557196817320:android:f89cd27b21b39665b4e39d",
+        "android_client_info": {
+          "package_name": "com.connect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDvYs7ZinjhJAUxC7I2j-BFNEzqOBB9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557196817320:android:3b105ae80ee5f8adb4e39d",
+        "android_client_info": {
+          "package_name": "com.exa.android.letstalk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDvYs7ZinjhJAUxC7I2j-BFNEzqOBB9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557196817320:android:42a839b58209d7b4b4e39d",
+        "android_client_info": {
+          "package_name": "com.exa.android.reflekt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDvYs7ZinjhJAUxC7I2j-BFNEzqOBB9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557196817320:android:4e8d281d366ab772b4e39d",
+        "android_client_info": {
+          "package_name": "com.example.collabapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDvYs7ZinjhJAUxC7I2j-BFNEzqOBB9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557196817320:android:64eafee3bb5bd4ddb4e39d",
+        "android_client_info": {
+          "package_name": "com.example.reflekt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDvYs7ZinjhJAUxC7I2j-BFNEzqOBB9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557196817320:android:093d3fd2d17dbf8eb4e39d",
+        "android_client_info": {
+          "package_name": "com.socialmedia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuDvYs7ZinjhJAUxC7I2j-BFNEzqOBB9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
