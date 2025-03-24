@@ -57,12 +57,7 @@ Reflekt empowers users to discover professionals, creatives, and experts (like d
 
 | Search Screen | Map View | Chat |
 |---------------|----------|------|
-| <img src="https://github.com/user-attachments/assets/3dce6bb0-15df-4d98-a654-907f63d07ca2" width="200"> | <img src="screenshots/map.png" width="200"> | <img src="screenshots/chat.png" width="200"> |
-![WhatsApp Image 2025-03-25 at 04 18 21_1bd450b9](https://github.com/user-attachments/assets/3dce6bb0-15df-4d98-a654-907f63d07ca2)
-
----![WhatsApp Image 2025-03-25 at 04 18 21_911e81c4](https://github.com/user-attachments/assets/d0e147b1-f950-421e-8dd7-0acbbaab908e)
-
-![WhatsApp Image 2025-03-25 at 04 18 22_0ba4e5ff](https://github.com/user-attachments/assets/59e62ac2-9ead-4033-b50d-20904e69a690)
+| <img src="https://github.com/user-attachments/assets/3dce6bb0-15df-4d98-a654-907f63d07ca2" width="200"> | <img src="https://github.com/user-attachments/assets/59e62ac2-9ead-4033-b50d-20904e69a690" width="200"> | <img src="https://github.com/user-attachments/assets/d0e147b1-f950-421e-8dd7-0acbbaab908e" width="200"> |
 
 ## ⚙️ Installation
 
