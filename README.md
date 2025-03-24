@@ -6,9 +6,6 @@ Reflekt empowers users to discover professionals, creatives, and experts (like d
 [![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.0-brightgreen)](https://developer.android.com/jetpack/compose)
 [![Firebase](https://img.shields.io/badge/Firebase-32.7.0-orange)](https://firebase.google.com/)
 
-<img src="screenshots/app_demo.gif" width="300" alt="App Demo"> *(Replace with your own GIF/screenshots)*
-
----
 
 ## 🚀 Key Features
 
