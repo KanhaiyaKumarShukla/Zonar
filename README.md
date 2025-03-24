@@ -55,7 +55,7 @@ Reflekt empowers users to discover professionals, creatives, and experts (like d
 
 ## 📸 Screenshots *(Add your own)*
 
-| Search Screen | Map View | Chat |
+| Search Screen | Map View | Filter Person Profile |
 |---------------|----------|------|
 | <img src="https://github.com/user-attachments/assets/3dce6bb0-15df-4d98-a654-907f63d07ca2" width="200"> | <img src="https://github.com/user-attachments/assets/59e62ac2-9ead-4033-b50d-20904e69a690" width="200"> | <img src="https://github.com/user-attachments/assets/d0e147b1-f950-421e-8dd7-0acbbaab908e" width="200"> |
 
