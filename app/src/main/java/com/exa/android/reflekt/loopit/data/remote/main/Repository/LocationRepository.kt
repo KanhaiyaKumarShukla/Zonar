@@ -21,6 +21,9 @@ import com.firebase.geofire.GeoQuery
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import timber.log.Timber
 
 @ViewModelScoped
@@ -59,7 +62,7 @@ class LocationRepository @Inject constructor(
                 }
             }
         }
-
+        Timber.tag("GeoFire").d("Starting location updates for user $userId")
         locationDataSource.startLocationUpdates(context, locationRequest, locationCallback)
     }
 
@@ -126,6 +129,51 @@ class LocationRepository @Inject constructor(
                 Timber.tag("GeoFire").e(exception, "Error fetching role for user $userId")
             }
         )
+    }
+
+
+    private val _requestedUserLocations = MutableStateFlow<List<profileUser>>(emptyList())
+    val requestedUserLocations: StateFlow<List<profileUser>> get() = _requestedUserLocations
+
+    private val locationListeners = mutableMapOf<String, ValueEventListener>()
+
+    fun fetchRequestedUserLocations(userIds: List<String>) {
+        val tag = "LocationDirectFetch"
+        Timber.tag(tag).d("Fetching locations directly for users: $userIds")
+
+        // Clear previous data and listeners
+        clearRequestedUserLocations()
+
+        userIds.forEach { userId ->
+            val listener = firebaseDataSource.listenToUserLocation(userId) { geoLocation ->
+                Timber.tag(tag).d("Location update for $userId: $geoLocation")
+
+                firebaseDataSource.fetchUser(userId,
+                    onSuccess = { user ->
+                        user?.let {
+                            val updatedUser = it.copy(
+                                lat = geoLocation.latitude,
+                                lng = geoLocation.longitude
+                            )
+                            _requestedUserLocations.value = _requestedUserLocations.value
+                                .filter { it.uid != userId } + updatedUser
+                        }
+                    },
+                    onFailure = { exception ->
+                        Timber.tag(tag).e(exception, "Error fetching user $userId")
+                    }
+                )
+            }
+            locationListeners[userId] = listener
+        }
+    }
+
+    fun clearRequestedUserLocations() {
+        locationListeners.forEach { (userId, listener) ->
+            firebaseDataSource.removeLocationListener(userId, listener)
+        }
+        locationListeners.clear()
+        _requestedUserLocations.value = emptyList()
     }
 }
 

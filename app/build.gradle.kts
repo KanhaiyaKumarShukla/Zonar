@@ -107,8 +107,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // image
-    implementation(libs.glide)
-    implementation(libs.landscapist.glide)
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.github.skydoves:landscapist-glide:2.2.12")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
 
 
@@ -116,4 +116,7 @@ dependencies {
     implementation ("com.google.maps.android:places-ktx:3.1.1")
     implementation ("androidx.activity:activity-ktx:1.10.1")
     implementation ("com.jakewharton.timber:timber:5.0.1")
+
+    implementation ("androidx.compose.material:material-icons-extended:1.7.0")
+
 }

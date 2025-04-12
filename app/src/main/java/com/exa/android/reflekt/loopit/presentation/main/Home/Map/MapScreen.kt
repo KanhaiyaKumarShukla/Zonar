@@ -80,6 +80,20 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import timber.log.Timber
 import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.provider.Settings
+import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+
+import androidx.compose.ui.text.font.FontWeight
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
 
 @SuppressLint("UnrememberedMutableState", "MissingPermission")
@@ -123,6 +137,12 @@ fun MapScreen(viewModel: LocationViewModel = hiltViewModel()) {
             // searchLocation = place.latLng?.let { LatLng(it.latitude, it.longitude) }
         }
     }
+    //update
+    val locationManager = remember {
+        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+    var isGpsEnabled by remember { mutableStateOf(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) }
+    var showGpsDialog by remember { mutableStateOf(false) }
 
     // Fetch current user's role
     LaunchedEffect(userId) {
@@ -137,6 +157,7 @@ fun MapScreen(viewModel: LocationViewModel = hiltViewModel()) {
         }
     }
 
+    Log.d("GeoFire", "MapScreen Composable, ${locationPermissionState.status}, ${currentLocation}, $selectedRole $radius $selectedLocation $currUserProfile $userLocations}")
     // Initial data loading
     LaunchedEffect(locationPermissionState.status, currentLocation, selectedRole) {
         if (locationPermissionState.status.isGranted && currentLocation != null) {
@@ -150,12 +171,16 @@ fun MapScreen(viewModel: LocationViewModel = hiltViewModel()) {
         }
     }
 
+    // update
     // Location permission handling
     LaunchedEffect(locationPermissionState.status) {
         if (locationPermissionState.status.isGranted) {
+            isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            showGpsDialog = !isGpsEnabled
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.let {
+                        Timber.tag("GeoFire").d("Current Location: ${it.latitude}, ${it.longitude}")
                         currentLocation = LatLng(it.latitude, it.longitude)
                         cameraPositionState.position = CameraPosition.fromLatLngZoom(currentLocation!!, 12f)
                     }
@@ -195,12 +220,13 @@ fun MapScreen(viewModel: LocationViewModel = hiltViewModel()) {
             ) {
                 userLocations.forEach { user ->
                     if (user.uid != userId) {  // Skip the current user
-                        Marker(
-                            state = MarkerState(position = LatLng(user.lat, user.lng)),
-                            title = user.role,
+                        CustomMapMarker(
+                            imageUrl = "https://i.pinimg.com/originals/b8/5e/9d/b85e9df9e9b75bcce3a767eb894ef153.jpg",
+                            fullName = user.firstName + " " + user.lastName,
+                            location = LatLng(user.lat, user.lng),
                             onClick = {
                                 selectedUser = user
-                                true // return true to indicate we've handled the event
+                                true
                             }
                         )
                     }
@@ -221,6 +247,29 @@ fun MapScreen(viewModel: LocationViewModel = hiltViewModel()) {
                 ProfileBottomSheet(
                     user = user,
                     onDismiss = { selectedUser = null }
+                )
+            }
+
+            // update
+            if (showGpsDialog) {
+                AlertDialog(
+                    onDismissRequest = { showGpsDialog = false },
+                    title = { Text("GPS Required") },
+                    text = { Text("Please enable GPS for accurate location services") },
+                    confirmButton = {
+                        Button(onClick = {
+                            // Open location settings
+                            context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                            showGpsDialog = false
+                        }) {
+                            Text("Enable GPS")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showGpsDialog = false }) {
+                            Text("Cancel")
+                        }
+                    }
                 )
             }
 
@@ -636,5 +685,128 @@ fun MapScreenn(viewModel: LocationViewModel = hiltViewModel()) {
     } else {
         // Show a message if location permission is not granted
         Text("Location permission is required to use this feature.")
+    }
+}
+
+@Composable
+fun CustomMapMarkerr(
+    imageUrl: String?,
+    fullName: String,
+    location: LatLng,
+    onClick: () -> Unit
+) {
+    val markerState = remember { MarkerState(position = location) }
+    val shape = RoundedCornerShape(20.dp, 20.dp, 20.dp, 0.dp)
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .allowHardware(false)
+            .build()
+    )
+
+    MarkerComposable(
+        keys = arrayOf(fullName, painter.state),
+        state = markerState,
+        title = fullName,
+        anchor = Offset(0.5f, 1f),
+        onClick = {
+            onClick()
+            true
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(shape)
+                .background(Color.LightGray)
+                .padding(4.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            if (!imageUrl.isNullOrEmpty()) {
+                Image(
+                    painter = painter,
+                    contentDescription = "Profile Image",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Text(
+                    text = fullName.take(1).uppercase(),
+                    color = Color.White,
+                    style = MaterialTheme.typography.displayMedium,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CustomMapMarker(
+    imageUrl: String?,
+    fullName: String,
+    location: LatLng,
+    onClick: () -> Unit
+) {
+    val markerState = remember { MarkerState(position = location) }
+    val context = LocalContext.current
+
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .allowHardware(false)
+            .build()
+    )
+
+    MarkerComposable(
+        keys = arrayOf(fullName, painter.state),
+        state = markerState,
+        title = fullName,
+        anchor = Offset(0.5f, 1f),
+        onClick = {
+            onClick()
+            true
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(bottom = 4.dp) // Adjusts position relative to marker
+        ) {
+            // Marker Base Icon
+            Image(
+                painter = painterResource(id = R.drawable.img), // Your marker base icon
+                contentDescription = "Map Marker",
+                modifier = Modifier.size(60.dp)
+            )
+
+            // Profile Image Positioned on Top
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .align(Alignment.TopCenter)
+                    .offset(y = 2.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, Color.White, CircleShape)
+                    .background(Color.Gray),
+                contentAlignment = Alignment.Center
+            ) {
+                if (!imageUrl.isNullOrEmpty()) {
+                    Image(
+                        painter = painter,
+                        contentDescription = "Profile Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Text(
+                        text = fullName.take(1).uppercase(),
+                        color = Color.White,
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+        }
     }
 }

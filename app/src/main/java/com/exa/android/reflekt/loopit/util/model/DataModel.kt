@@ -2,6 +2,9 @@ package com.exa.android.reflekt.loopit.util.model
 
 import com.google.firebase.Timestamp
 import java.util.UUID
+import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.ServerTimestamp
+
 
 data class User(
     val userId : String = "",
@@ -64,4 +67,30 @@ data class Status(
     val isOnline: Boolean = false,
     val lastSeen: Long? = null,
     val typingTo: String = ""
+)
+
+data class Project(
+    @DocumentId val id: String = "",
+    val title: String = "",
+    val description: String = "",
+    val rolesNeeded: List<String> = emptyList(),
+    val tags: List<String> = emptyList(),
+    @ServerTimestamp val createdAt: Timestamp? = null,
+    val createdBy: String = "", // User ID
+    val createdByName: String = "",
+    val enrolledPersons: Map<String, String> = emptyMap(),
+    val requestedPersons: Map<String, String> = emptyMap()
+) {
+    companion object {
+        const val FIELD_TITLE = "title"
+        const val FIELD_CREATED_AT = "createdAt"
+    }
+}
+
+// User.kt
+data class Userr(
+    val id: String = "",
+    val name: String = "",
+    val skills: List<String> = emptyList(),
+    val interestedRoles: List<String> = emptyList()
 )
