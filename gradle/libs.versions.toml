@@ -1,4 +1,5 @@
 [versions]
+accompanistSystemuicontroller = "0.30.1"
 agp = "8.7.3"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -21,6 +22,7 @@ streamVideo = "0.5.1"
 accompanist = "0.37.2"
 
 [libraries]
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 stream-video-ui-compose = { group = "io.getstream", name = "stream-video-android-ui-compose", version.ref = "streamVideo" }
 stream-video-ui-previewdata = { group = "io.getstream", name = "stream-video-android-previewdata", version.ref = "streamVideo" }
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }

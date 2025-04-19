@@ -57,7 +57,7 @@ import androidx.navigation.NavHostController
 import com.exa.android.reflekt.R
 import com.exa.android.reflekt.loopit.util.model.User
 import io.getstream.meeting.room.compose.ui.AppScreens
-import io.getstream.meeting.room.compose.ui.MeetingRoomTheme
+import io.getstream.meeting.room.compose.ui.AppTheme
 import io.getstream.meeting.room.compose.ui.component.StreamButton
 import io.getstream.video.android.compose.theme.VideoTheme
 import io.getstream.video.android.compose.ui.components.avatar.UserAvatar
@@ -272,7 +272,7 @@ private fun LobbyDescription(
 @Composable
 private fun CallLobbyScreenPreview() {
   StreamPreviewDataUtils.initializeStreamVideo(LocalContext.current)
-  MeetingRoomTheme {
+  AppTheme {
     Box(modifier = Modifier.fillMaxSize()) {
       CallLobbyContent(
         uiState = LobbyUiState.TokenRefreshed(previewCall),

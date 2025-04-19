@@ -36,8 +36,9 @@ import com.exa.android.reflekt.loopit.presentation.navigation.component.HomeRout
 import com.exa.android.reflekt.loopit.presentation.navigation.component.MainRoute
 import com.exa.android.reflekt.ui.navigation.MainNavigation
 import com.exa.android.reflekt.ui.theme.ReflektTheme
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
-import io.getstream.meeting.room.compose.ui.MeetingRoomTheme
+import io.getstream.meeting.room.compose.ui.AppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -47,14 +48,14 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
 
         val curUser = userViewModel.curUser
-
+        FirebaseApp.initializeApp(this)
         curUser?.let {
             val lifecycleObserver = MyLifecycleObserver(userViewModel, it)
             lifecycle.addObserver(lifecycleObserver)
         }
 
         setContent {
-            MeetingRoomTheme{
+            AppTheme{
                 updateStatus(this)
                 App()
                //MainNavigation()
@@ -108,7 +109,7 @@ fun App() {
 //        }
 
     val viewModel: AuthVM = hiltViewModel()
-    val isLoggedIn = viewModel.authStatus.collectAsState().equals(true)
+    val isLoggedIn = viewModel.loginState.value.loginSuccess
     val navController = rememberNavController()
     //OnBackPressed(navController = navController)
     AppNavigation(navController, isLoggedIn)

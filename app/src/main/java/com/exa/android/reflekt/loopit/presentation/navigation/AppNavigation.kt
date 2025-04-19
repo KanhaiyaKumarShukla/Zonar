@@ -10,11 +10,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.exa.android.reflekt.OnBackPressed
+import com.exa.android.reflekt.loopit.data.remote.authentication.vm.LoginState
+import com.exa.android.reflekt.loopit.presentation.navigation.component.AuthRoute
 import com.exa.android.reflekt.loopit.presentation.navigation.component.CustomBottomNavigationBar
 import com.exa.android.reflekt.loopit.presentation.navigation.component.HomeRoute
 import com.exa.android.reflekt.loopit.presentation.navigation.component.MainRoute
 import com.exa.android.reflekt.loopit.presentation.navigation.component.bottomSheet
-import io.getstream.meeting.room.compose.ui.MeetingRoomTheme
+import io.getstream.meeting.room.compose.ui.AppTheme
 import io.getstream.video.android.compose.theme.VideoTheme
 
 @Composable
@@ -31,14 +33,27 @@ fun AppNavigation(navController: NavHostController, isLoggedIn: Boolean) {
             }
         }
     ) { paddingValues ->
-        NavHost(
+        RootNavGraph(
             navController = navController,
-            startDestination = if (isLoggedIn) "main_app" else "auth",
-            modifier = Modifier.padding(paddingValues).background(VideoTheme.colors.appBackground)
-        ) {
-            authNavGraph(navController)
-            mainAppNavGraph(navController)
-        }
+            isLoggedIn = isLoggedIn,
+            modifier = Modifier.padding(paddingValues)
+        )
+    }
+}
+
+@Composable
+fun RootNavGraph(
+    navController: NavHostController,
+    isLoggedIn: Boolean,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = if (isLoggedIn) MainRoute.ROOT else AuthRoute.ROOT,
+        modifier = modifier
+    ) {
+        authNavGraph(navController)
+        mainAppNavGraph(navController)
     }
 }
 

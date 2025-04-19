@@ -1,5 +1,7 @@
 package com.exa.android.reflekt.loopit.di
 
+import com.exa.android.reflekt.loopit.data.remote.authentication.repo.AuthRepository
+import com.exa.android.reflekt.loopit.data.remote.authentication.repo.AuthRepositoryImpl
 import com.exa.android.reflekt.loopit.data.remote.main.Repository.ProfileRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -31,4 +33,9 @@ class AuthModule {
     fun provideProfileRepository(firestore: FirebaseFirestore): ProfileRepository {
         return ProfileRepository(firestore)
     }
+    @Provides
+    fun provideAuthRepository(
+        auth: FirebaseAuth,
+        firestore: FirebaseFirestore
+    ): AuthRepository = AuthRepositoryImpl(auth, firestore)
 }
